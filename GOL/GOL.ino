@@ -22,7 +22,7 @@ int Board[HEIGHT][WIDTH] = {0};
 
 void updateMatrix();
 void doTurn();
-void launchGlider();
+void launchGliders();
 int getNeighbors(int row, int column);
 
 void setup(void) {
