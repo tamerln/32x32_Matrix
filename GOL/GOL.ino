@@ -1,5 +1,12 @@
 #include <Adafruit_Protomatter.h>
 
+// MatrixPortal ESP32-S3 configuration:
+  uint8_t rgbPins[]  = {42, 41, 40, 38, 39, 37};
+  uint8_t addrPins[] = {45, 36, 48, 35, 21};
+  uint8_t clockPin   = 2;
+  uint8_t latchPin   = 47;
+  uint8_t oePin      = 14;
+
 Adafruit_Protomatter matrix(
   32,          // Width of matrix (or matrix chain) in pixels
   4,           // Bit depth, 1-6
@@ -8,9 +15,9 @@ Adafruit_Protomatter matrix(
   clockPin, latchPin, oePin, // Other matrix control pins
   false);      // No double-buffering here (see "doublebuffer" example)
 
-int gameWidth = 32;
-int gameHeight = 32;
-int Board[gameHeight][gameWidth] = {0};
+const int WIDTH = 32;
+const int HEIGHT = 32;
+int Board[HEIGHT][WIDTH] = {0};
 
 
 void updateMatrix();
@@ -48,10 +55,10 @@ void loop(void) {
 
 void doTurn() {
     int numNeighbors;
-    int tempBoard[gameHeight][gameWidth] = {0};
+    int tempBoard[HEIGHT][WIDTH] = {0};
 
-    for (int i = 0; i < gameHeight; i++) { //row
-        for(int j = 0; j < gameWidth; j++) { //column
+    for (int i = 0; i < HEIGHT; i++) { //row
+        for(int j = 0; j < WIDTH; j++) { //column
             numNeighbors = getNeighbors(i, j);
             //death (neighbors < 2 || neighbors > 3)
             if (Board[i][j] == 1) { // Alive
@@ -83,8 +90,8 @@ int getNeighbors(int row, int column) {
 }
 
 void updateMatrix() {
-        for (int i = 0; i < gameHeight; i++) { //row
-              for(int j = 0; j < gameWidth; j++) { //column
+        for (int i = 0; i < HEIGHT; i++) { //row
+              for(int j = 0; j < WIDTH; j++) { //column
                   if (Board[i][j] == 1) {
                   matrix.drawPixel(j, i, matrix.color565(0, 255, 0)); ;
                  } else {
@@ -108,4 +115,3 @@ void launchGliders() { //initializes  2 gosper gliders from top corners of matri
   Board[0][29] = 1;
 
 }
-
